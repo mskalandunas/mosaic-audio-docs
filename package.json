@@ -1,0 +1,24 @@
+{
+  "name": "mosaic-audio-docs",
+  "version": "0.1.0",
+  "description": "Docs for mosaic audio package.",
+  "main": "index.js",
+  "dependencies": {
+    "mosaic-audio": "^1.1.1",
+    "react": "^15.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mskalandunas/mosaic-audio-docs.git"
+  },
+  "author": "Mike Skalandunas <mskalandunas@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mskalandunas/mosaic-audio-docs/issues"
+  },
+  "homepage": "https://github.com/mskalandunas/mosaic-audio-docs#readme"
+}
