@@ -6,6 +6,7 @@ import _u from '../lib/utilities';
 
 const Riverine = React.createClass({
   propTypes: {
+    hover           : React.PropTypes.bool.isRequired,
     source          : React.PropTypes.string.isRequired
   },
 
@@ -26,6 +27,7 @@ const Riverine = React.createClass({
     this.playButton    = that.children[1].children[0].children[0];
     this.playHead      = that.children[2].children[0].children[0];
     this.timeline      = that.children[2];
+    console.log(this.timeline);
     this.timelineWidth = this.timeline.offsetWidth - this.playHead.offsetWidth;
 
     window.addEventListener('mouseup', this.mouseUp, false);

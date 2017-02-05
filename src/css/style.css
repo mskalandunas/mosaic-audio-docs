@@ -11,6 +11,42 @@ body {
   color: #2b2b2b;
 }
 
+a.link {
+  text-decoration: none;
+  color: #808080;
+  position: relative;
+  -moz-transition: all 250ms ease-in-out;
+  -webkit-transition: all 250ms ease-in-out;
+  -o-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+a.link:after {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 50%;
+  height: 3px;
+  background: #808080;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=(50));
+  opacity: 0.5;
+  content: "";
+  -moz-transition: all 250ms ease-in-out;
+  -webkit-transition: all 250ms ease-in-out;
+  -o-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+a.link:hover {
+  color: #ffc371;
+}
+
+a.link:hover:after {
+  width: 99%;
+  background: #ffc371;
+}
+
 a.mosaic-icon:hover svg g {
   fill: #ffc371;
 }
