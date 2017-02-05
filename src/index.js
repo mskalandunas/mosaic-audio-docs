@@ -1,14 +1,20 @@
 'use strict';
 
 import './css/style.css';
-// import React from 'react';
-// import { render } from 'react-dom';
-// import Riverine from './js/components/riverine';
+import './css/player.css';
+import React from 'react';
+import { render } from 'react-dom';
+import Riverine from './js/components/riverine';
 
-// const Root = () => {
-//   return (
+const Root = () => {
+  return (
+    <div>
+      <Riverine
+        desc=''
+        source="audio/1.mp3"
+      />
+    </div>
+  )
+}
 
-//   )
-// }
-
-// render(<App/>, document.querySelector('#root'));
+render(<Root/>, document.querySelector('#root'));
