@@ -96,10 +96,6 @@
 }
 
 @media (max-width: 1150px) {
-  .riverine-time-holder {
-    opacity: 0;
-  }
-
   .riverine-title ul {
     font-size: 10px;
   }

@@ -10,7 +10,6 @@ const Root = () => {
   return (
     <div>
       <Riverine
-        desc=''
         source="audio/1.mp3"
       />
     </div>

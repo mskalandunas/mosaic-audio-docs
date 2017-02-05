@@ -59,7 +59,6 @@ svg g {
   transition: 0.3s ease;
 }
 
-/* classes */
 .container {
   max-width: 500px;
   margin: 0 auto;
@@ -78,4 +77,22 @@ svg g {
 
 ::selection {
   background-color: rgba(0, 0, 0, 0);
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+    letter-spacing: .2em;
+    font-size: 3.5em;
+    margin-bottom: 1em;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  p {
+    font-size: 1em;
+  }
+
+  .code {
+    font-size: .8em;
+  }
 }

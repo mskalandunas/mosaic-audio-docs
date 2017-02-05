@@ -6,7 +6,6 @@ import _u from '../lib/utilities';
 
 const Riverine = React.createClass({
   propTypes: {
-    desc            : React.PropTypes.string.isRequired,
     source          : React.PropTypes.string.isRequired
   },
 
@@ -30,6 +29,7 @@ const Riverine = React.createClass({
     this.timelineWidth = this.timeline.offsetWidth - this.playHead.offsetWidth;
 
     window.addEventListener('mouseup', this.mouseUp, false);
+    window.addEventListener('resize', this.handleResize, false);
     this.audioNode.addEventListener('timeupdate', this.handlePlayhead, false);
     this.timeline.addEventListener('mouseover', this.handleHover, false);
   },
@@ -100,6 +100,15 @@ const Riverine = React.createClass({
     };
   },
 
+  handleResize : function() {
+    let padding = this.playHead.style.paddingLeft;
+    let p;
+
+    padding === '' ? p = 0 : p = parseInt(padding.substring(0, padding.length - 2));
+    this.timelineWidth = (this.timeline.offsetWidth - this.playHead.offsetWidth) + p;
+    this.handlePlayhead();
+  },
+
   mouseDown : function() {
     this.scrubberClicked = true;
     window.addEventListener('mousemove', this.moveplayhead, true);
@@ -167,7 +176,6 @@ const Riverine = React.createClass({
             </div>
           </div>
         </div>
-        <p>{this.props.desc}</p>
       </div>
     )
   }
