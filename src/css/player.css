@@ -3,6 +3,13 @@
   background: -webkit-linear-gradient(left, red, #2b2b2b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition: 0.2s ease;
+  -moz-transition: 0.2s ease;
+  -webkit-transition: 0.2s ease;
+}
+
+.fa-play:hover, .fa-pause:hover {
+  opacity: 0.5;
 }
 
 .riverine-player,.riverine-audio {
