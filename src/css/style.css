@@ -1,8 +1,49 @@
+html {
+  background-color: #f2f2f2;
+}
+
 body {
-/*  background-image: #517fa4;
-  background-image: linear-gradient(to bottom right, #221c2d 30%, #38364f 80%);
-  background-image: -webkit-linear-gradient(left top, #221c2d 30%, #38364f 80%);
-  background-image: -moz-linear-gradient(bottom right, #221c2d 30%, #38364f 80%);
-  background-image: -o-linear-gradient(to bottom right, #221c2d 30%, #38364f 80%);*/
-  background: linear-gradient(45deg,#a177ff,#02ceff);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+  cursor: default;
+  color: #2b2b2b;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+h1 {
+  font-size: 4em;
+  text-align: center;
+  letter-spacing: .46em;
+  margin-bottom: 2em;
+}
+
+main {
+  padding: 200px 10px 150px;
+}
+
+section {
+  padding: 150px 10px;
+}
+
+p {
+  font-family: 'Noto Serif', serif;
+  font-size: 1.3em;
+  letter-spacing: 0.05em;
+  line-height: 1.8em;
+  text-align: justify;
+}
+
+/* classes */
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+::selection {
+  background-color: rgba(0, 0, 0, 0);
 }
