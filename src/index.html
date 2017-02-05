@@ -21,17 +21,39 @@
   <meta property="og:url" content="http://mosaicmusic.io/">
   <title>– r i v e r i n e –</title>
   <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
-  <link href='https://fonts.googleapis.com/css?family=Roboto+Mono|Merriweather+Sans|Noto+Serif' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono|Merriweather+Sans|Noto+Serif' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <main>
-    <div class="container">
-      <h1>RIVERINE</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque ut urna ut sodales. Proin molestie urna odio, sed semper erat accumsan vel. Aliquam sit amet erat luctus, condimentum velit sed, luctus sapien. Donec id bibendum orci. Nullam nec dui lorem. Mauris dapibus rutrum elementum.</p>
-      <p>Sed iaculis, augue eget rutrum ullamcorper, ante nulla aliquet mi, a volutpat sem orci sed sem. In consectetur odio et purus tempus posuere. Proin ullamcorper dapibus nisi finibus sollicitudin.</p>
-      <p>Aliquam diam erat, pretium id enim ac, laoreet consectetur ante. Donec pulvinar consequat nulla vitae gravida.</p>
-    </div>
+  <main class="container">
+    <h1>RIVERINE</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque ut urna ut sodales. Proin molestie urna odio, sed semper erat accumsan vel. Aliquam sit amet erat luctus, condimentum velit sed, luctus sapien. Donec id bibendum orci. Nullam nec dui lorem. Mauris dapibus rutrum elementum.</p>
+    <p>Sed iaculis, augue eget rutrum ullamcorper, ante nulla aliquet mi, a volutpat sem orci sed sem. In consectetur odio et purus tempus posuere. Proin ullamcorper dapibus nisi finibus sollicitudin.</p>
+    <p>Aliquam diam erat, pretium id enim ac, laoreet consectetur ante. Donec pulvinar consequat nulla vitae gravida.</p>
+    <hr>
+    <p class="code">
+      npm install --save riverine
+    </p>
+    <p>Proin ullamcorper dapibus nisi finibus sollicitudin.</p>
+    <hr>
+    <p class="code">
+      import './css/main.css';<br><br>
+      import React from 'react';<br>
+      import ReactDOM from 'react-dom';<br>
+      import River from 'riverine';<br><br>
+      const main = document.getElementById('main');<br><br>
+      const Root = () => (<br>
+      &nbsp;&nbsp;&lt;River<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;hover={true}<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;margin={false}<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;playClass="fa fa-play"<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;pauseClass="fa fa-pause"<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;source="audio/1.wav"<br>
+      &nbsp;&nbsp;/&gt;<br>
+      );<br><br>
+      ReactDOM.render(&lt;Root/&gt;, main);
+    </p>
+    <p>Aliquam diam erat, pretium id enim ac, laoreet consectetur ante. Donec pulvinar consequat nulla vitae gravida.</p>
   </main>
 
   <!-- JavaScript -->
