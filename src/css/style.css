@@ -11,6 +11,14 @@ body {
   color: #2b2b2b;
 }
 
+a.mosaic-icon:hover svg g {
+  fill: #ffc371;
+}
+
+footer p {
+  text-align: center;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Merriweather Sans', sans-serif;
 }
@@ -31,7 +39,7 @@ hr {
 }
 
 main {
-  padding: 200px 10px 150px;
+  padding: 200px 10px 0;
 }
 
 p {
@@ -40,6 +48,15 @@ p {
   letter-spacing: 0.05em;
   line-height: 1.8em;
   text-align: justify;
+}
+
+svg {
+  width: 20px;
+  padding-top: 1px;
+}
+
+svg g {
+  transition: 0.3s ease;
 }
 
 /* classes */
