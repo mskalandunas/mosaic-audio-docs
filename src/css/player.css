@@ -1,5 +1,5 @@
 .fa-play, .fa-pause {
-  background: -webkit-linear-gradient(left, red, #2b2b2b);
+  background: -webkit-linear-gradient(left, #ff5f6d, #2b2b2b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: 0.2s ease;
