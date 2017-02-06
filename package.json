@@ -25,7 +25,7 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --port 3000",
-    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress"
+    "postinstall": "webpack -p --config ./webpack.prod.config.js --progress"
   },
   "repository": {
     "type": "git",
