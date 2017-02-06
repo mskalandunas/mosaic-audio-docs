@@ -39,12 +39,12 @@ a.link:after {
 }
 
 a.link:hover {
-  color: #ffc371;
+  color: #ff5f6d;
 }
 
 a.link:hover:after {
   width: 99%;
-  background: #ffc371;
+  background: #ff5f6d;
 }
 
 a.mosaic-icon:hover svg g {
