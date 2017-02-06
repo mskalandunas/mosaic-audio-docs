@@ -1,24 +1,3 @@
-@font-face {
-  font-family: 'Merriweather Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/Merriweather-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Noto Serif';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/NotoSerif-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Ubuntu Mono';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/UbuntuMono-Regular.ttf') format('truetype');
-}
-
 html {
   background-color: #f2f2f2;
 }

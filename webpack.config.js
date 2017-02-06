@@ -58,7 +58,11 @@ if (TARGET === 'start' || !TARGET){
       port: process.env.PORT
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        include: /\.min\.js$/,
+        minimize: true
+      })
     ]
   });
 }
