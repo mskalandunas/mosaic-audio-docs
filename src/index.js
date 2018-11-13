@@ -1,9 +1,9 @@
 'use strict';
 
-import './css/player.css';
+import './player.css';
 import React from 'react';
 import { render } from 'react-dom';
-import Riverine from './js/components/riverine';
+import Riverine from 'riverine';
 
 const Root = () => {
   return (

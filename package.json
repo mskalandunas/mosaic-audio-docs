@@ -1,11 +1,12 @@
 {
-  "name": "riverine",
+  "name": "riverine-docs",
   "version": "0.1.0",
   "description": "Docs for riverine package.",
   "main": "index.js",
   "dependencies": {
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "riverine": "0.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
