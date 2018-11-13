@@ -24,8 +24,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --port 3000",
-    "postinstall": "webpack -p --config ./webpack.prod.config.js --progress"
+    "start": "webpack-dev-server --port 3000"
   },
   "repository": {
     "type": "git",

@@ -7,7 +7,7 @@ const webpack = require('webpack');
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'public')
+  build: path.join(__dirname, 'dist')
 };
 
 const common = {
@@ -19,7 +19,7 @@ const common = {
   },
   output: {
     path: PATHS.build,
-    filename: 'bundle.js'
+    filename: 'main.js'
   },
   module: {
     loaders: [
