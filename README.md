@@ -1,2 +1,4 @@
-# mosaic-audio-docs
-Docs for the mosaic audio component.
+# Riverine
+Docs for the Riverine React audio component.  
+
+[Riverine docs](http://riverine.surge.sh/)
