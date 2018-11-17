@@ -24,6 +24,8 @@ const formatHours = hours => hoursExist(hours) ? hours = '0' + hours + ':' : hou
 
 const formatNonHourTimeUnits = (timeAmount = 0) => timeAmount < 10 ? '0' + timeAmount : timeAmount;
 
+const formatResizedPadding = padding => parseInt(padding.substring(0, padding.length - 2));
+
 export const handleTime = duration => {
     let durationAsInteger = convertDurationToInteger(duration);
     let hours   = getHours(durationAsInteger);
@@ -32,5 +34,8 @@ export const handleTime = duration => {
 
     return formatHours(hours) + formatNonHourTimeUnits(minutes) + ':' + formatNonHourTimeUnits(seconds);
 };
+
+export const handlePaddingResize = padding =>
+    padding === '' ? 0 : formatResizedPadding(padding);
 
 export const newId = prefix => `${prefix}${(new Date()).getTime()}`;
