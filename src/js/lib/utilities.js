@@ -1,5 +1,5 @@
-export const handleOffsetParent = (node) => {
-    let n = node;
+export const handleOffsetParent = originNode => {
+    let n = originNode;
     let o = 0;
 
     while (n.offsetParent !== null) {
@@ -10,29 +10,27 @@ export const handleOffsetParent = (node) => {
     return o;
 };
 
-export const handleTime = (duration) => {
-    let sec_num = parseInt(duration, 10);
-    let hours   = Math.floor(sec_num / 3600);
-    let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    let seconds = sec_num - (hours * 3600) - (minutes * 60);
+const convertDurationToInteger = duration => parseInt(duration, 10);
 
-    if (hours < 10 && hours > 0) {
-        hours = '0' + hours + ':';
-    } else {
-        hours = '';
-    }
+const getHours = duration => Math.floor(duration / 3600);
 
-    if (minutes < 10) {
-        minutes = '0' + minutes;
-    }
+const getMinutes = (duration, hours) => Math.floor((duration - (hours * 3600)) / 60);
 
-    if (seconds < 10) {
-        seconds = '0' + seconds;
-    }
+const getSeconds = (duration, hours, minutes) => duration - (hours * 3600) - (minutes * 60);
 
-    return hours + minutes + ':' + seconds;
+const hoursExist = hours => hours < 10 && hours > 0;
+
+const formatHours = hours => hoursExist(hours) ? hours = '0' + hours + ':' : hours = '';
+
+const formatNonHourTimeUnits = (timeAmount = 0) => timeAmount < 10 ? '0' + timeAmount : timeAmount;
+
+export const handleTime = duration => {
+    let durationAsInteger = convertDurationToInteger(duration);
+    let hours   = getHours(durationAsInteger);
+    let minutes = getMinutes(durationAsInteger, hours);
+    let seconds = getSeconds(durationAsInteger, hours, minutes);
+
+    return formatHours(hours) + formatNonHourTimeUnits(minutes) + ':' + formatNonHourTimeUnits(seconds);
 };
 
-export const newId = (prefix) => {
-    return `${prefix}${(new Date()).getTime()}`;
-};
+export const newId = prefix => `${prefix}${(new Date()).getTime()}`;
