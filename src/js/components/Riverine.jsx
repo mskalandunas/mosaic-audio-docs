@@ -2,13 +2,25 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { handleOffsetParent, handleTime, newId } from '../lib/utilities';
+import { handleOffsetParent, handleTime } from '../lib/utilities';
+
+import { AudioNode } from './AudioNode'; // consider renaming
+import { Controls } from './Controls';
+import { PauseButton } from './PauseButton';
+import { PlayButton } from './PlayButton';
+import { ProgressBar } from './ProgressBar';
+import { TimeHandler } from './TimeHandler';
 
 export class Riverine extends Component {
     constructor() {
         super();
+
+        this.state = {
+            duration: '', // should this be an int?
+            playing: false
+        };
+
         this.scrubberClicked = false;
-        this.duration = '';
         this.audioNode = '';
         this.playButton = '';
         this.playHead = '';
@@ -19,6 +31,7 @@ export class Riverine extends Component {
         this.addHover = this.addHover.bind(this);
         this.clickPercent = this.clickPercent.bind(this);
         this.returnDuration = this.returnDuration.bind(this);
+        this.pause = this.pause.bind(this);
         this.play = this.play.bind(this);
         this.handleHover = this.handleHover.bind(this);
         this.updateTime = this.updateTime.bind(this);
@@ -74,16 +87,14 @@ export class Riverine extends Component {
         this.updateTime();
     }
 
+    pause() {
+        this.audioNode.pause();
+        this.setState({ playing: false });
+    }
+
     play() {
-        if (this.audioNode.paused) {
-            this.audioNode.play();
-            this.playButton.children[0].classList = '';
-            this.playButton.children[0].classList = 'fa fa-pause';
-        } else {
-            this.audioNode.pause();
-            this.playButton.children[0].classList = '';
-            this.playButton.children[0].classList = 'fa fa-play';
-        };
+        this.audioNode.play();
+        this.setState({ playing: true });
     }
 
     updateTime() {
@@ -167,24 +178,21 @@ export class Riverine extends Component {
                 <div className="riverine-player">
                     <div className="riverine-type-single">
                         <div className="riverine-gui riverine-interface riverine-player">
-                            <audio id={newId('audio-')} preload="auto" onDurationChange={this.returnDuration} onTimeUpdate={this.updateTime} loop={this.props.loop}>
-                                <source src={this.props.source}/>
-                            </audio>
-                            <ul className="riverine-controls">
-                                <li className="play-button-container">
-                                    <a className="riverine-play" onClick={this.play}>
-                                        <i className="fa fa-play"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div className="riverine-progress" onMouseDown={this.mouseDown}>
-                                <div className="riverine-seek-bar">
-                                    <div className="riverine-play-bar" onMouseDown={this.mouseDown}></div>
-                                </div>
-                            </div>
-                            <div className="riverine-time-holder">
-                                <span></span>
-                            </div>
+                            <AudioNode
+                                audioIdPrefix={this.props.audioIdPrefix}
+                                loop={this.props.loop}
+                                preload={this.props.preload}
+                                source={this.props.source}
+                                returnDuration={this.returnDuration}
+                                updateTime={this.updateTime}
+                            />
+                            <Controls>
+                                {this.state.playing
+                                    ? <PauseButton pause={this.pause} />
+                                    : <PlayButton play={this.play} />}
+                            </Controls>
+                            <ProgressBar mouseDown={this.mouseDown} />
+                            <TimeHandler/>
                         </div>
                     </div>
                 </div>
