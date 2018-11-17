@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { handleOffsetParent, handleTime } from '../lib/utilities';
+import { handleOffsetParent, handlePaddingResize, handleTime } from '../lib/utilities';
 
 import { AudioNode } from './AudioNode'; // consider renaming
 import { Controls } from './Controls';
@@ -11,12 +11,15 @@ import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
 import { TimeHandler } from './TimeHandler';
 
+const DEFAULT_HOVER_WIDTH = '0px';
+
 export class Riverine extends Component {
     constructor() {
         super();
 
         this.state = {
-            duration: '', // should this be an int?
+            duration: '',
+            hoverWidth: DEFAULT_HOVER_WIDTH,
             playing: false
         };
 
@@ -47,7 +50,6 @@ export class Riverine extends Component {
         const that         = ReactDOM.findDOMNode(this).children[0].children[0].children[0];
         this.audioNode     = that.children[0];
         this.duration      = that.children[3];
-        this.hover         = that.children[2].children[0];
         this.playButton    = that.children[1].children[0].children[0];
         this.playHead      = that.children[2].children[0].children[0];
         this.timeline      = that.children[2];
@@ -60,25 +62,23 @@ export class Riverine extends Component {
     }
 
     addHover(e) {
-        let positionOffset = handleOffsetParent(this.timeline);
-        let newMargLeft = e.pageX - positionOffset;
+        let newMargLeft = e.pageX - handleOffsetParent(this.timeline);
 
         if (newMargLeft >= 0 && newMargLeft <= this.timelineWidth) {
-            this.hover.style.width = newMargLeft + 'px';
+            this.setState(state => ({ ...state, hoverWidth: newMargLeft + 'px' }));
         };
 
         if (newMargLeft < 0) {
-            this.hover.style.width = '0px';
+            this.setState(state => ({ ...state, hoverWidth: DEFAULT_HOVER_WIDTH }));
         };
 
         if (newMargLeft > this.timelineWidth) {
-            this.hover.style.width = this.timelineWidth + 'px';
+            this.setState(state => ({...state, hoverWidth: this.timelineWidth + 'px'}));
         };
     }
 
     clickPercent(e) {
-        let positionOffset = handleOffsetParent(this.timeline);
-        return (e.pageX - positionOffset) / this.timelineWidth;
+        return (e.pageX - handleOffsetParent(this.timeline)) / this.timelineWidth;
     }
 
     returnDuration() {
@@ -125,9 +125,8 @@ export class Riverine extends Component {
 
     handleResize() {
         let padding = this.playHead.style.paddingLeft;
-        let p;
+        let p = handlePaddingResize(padding);
 
-        padding === '' ? p = 0 : p = parseInt(padding.substring(0, padding.length - 2));
         this.timelineWidth = (this.timeline.offsetWidth - this.playHead.offsetWidth) + p;
         this.handlePlayhead();
     }
@@ -169,7 +168,10 @@ export class Riverine extends Component {
     }
 
     removeHover() {
-        this.hover.style.width = '0px';
+        this.setState(state => ({
+            ...state,
+            hoverWidth: DEFAULT_HOVER_WIDTH
+        }));
     }
 
     render() {
@@ -191,7 +193,7 @@ export class Riverine extends Component {
                                     ? <PauseButton pause={this.pause} />
                                     : <PlayButton play={this.play} />}
                             </Controls>
-                            <ProgressBar mouseDown={this.mouseDown} />
+                            <ProgressBar mouseDown={this.mouseDown} hoverWidth={this.state.hoverWidth}/>
                             <TimeHandler/>
                         </div>
                     </div>
