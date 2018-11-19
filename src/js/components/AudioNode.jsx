@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { REFS } from '../lib/constants';
 import { newId } from '../lib/utilities';
 
 export const AudioNode = props => {
@@ -11,6 +12,7 @@ export const AudioNode = props => {
             onDurationChange={props.returnDuration}
             onTimeUpdate={props.updateTime}
             preload={props.preload}
+            ref={node => props.createRef(REFS.AUDIO, node)}
         >
             <source src={props.source} />
         </audio>
