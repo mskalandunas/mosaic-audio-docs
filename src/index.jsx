@@ -9,7 +9,6 @@ const Root = () => {
   return (
     <div>
       <Riverine
-        hover={true}
         source="audio/1.mp3"
       />
     </div>
