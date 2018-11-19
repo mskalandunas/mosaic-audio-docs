@@ -5,7 +5,7 @@ export const handleOffsetParent = originNode => {
     while (n.offsetParent !== null) {
         o = o + n.offsetLeft;
         n = n.offsetParent;
-    };
+    }
 
     return o;
 };
@@ -24,15 +24,18 @@ const formatHours = hours => hoursExist(hours) ? hours = '0' + hours + ':' : hou
 
 const formatNonHourTimeUnits = (timeAmount = 0) => timeAmount < 10 ? '0' + timeAmount : timeAmount;
 
-const formatResizedPadding = padding => parseInt(padding.substring(0, padding.length - 2));
+const formatResizedPadding = padding => parseInt(padding.substring(0, padding.length - 2), 10);
 
 export const handleTime = duration => {
     let durationAsInteger = convertDurationToInteger(duration);
-    let hours   = getHours(durationAsInteger);
+    let hours = getHours(durationAsInteger);
     let minutes = getMinutes(durationAsInteger, hours);
     let seconds = getSeconds(durationAsInteger, hours, minutes);
 
-    return formatHours(hours) + formatNonHourTimeUnits(minutes) + ':' + formatNonHourTimeUnits(seconds);
+    return formatHours(hours)
+        + formatNonHourTimeUnits(minutes)
+        + ':'
+        + formatNonHourTimeUnits(seconds);
 };
 
 export const handlePaddingResize = padding =>

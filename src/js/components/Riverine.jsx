@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 
 import { handleOffsetParent, handlePaddingResize, handleTime } from '../lib/utilities';
 
+import { DEFAULT_HOVER_WIDTH, DEFAULT_STATE } from '../lib/constants';
+
 import { AudioNode } from './AudioNode'; // consider renaming
 import { Controls } from './Controls';
 import { PauseButton } from './PauseButton';
@@ -11,17 +13,11 @@ import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
 import { TimeHandler } from './TimeHandler';
 
-const DEFAULT_HOVER_WIDTH = '0px';
-
 export class Riverine extends Component {
     constructor() {
         super();
 
-        this.state = {
-            duration: '',
-            hoverWidth: DEFAULT_HOVER_WIDTH,
-            playing: false
-        };
+        this.state = DEFAULT_STATE;
 
         this.scrubberClicked = false;
         this.audioNode = '';
@@ -53,6 +49,8 @@ export class Riverine extends Component {
         this.playButton    = that.children[1].children[0].children[0];
         this.playHead      = that.children[2].children[0].children[0];
         this.timeline      = that.children[2];
+        console.log(this.timeline);
+        console.log(this.playHead);
         this.timelineWidth = this.timeline.offsetWidth - this.playHead.offsetWidth;
 
         window.addEventListener('mouseup', this.mouseUp, false);
@@ -73,7 +71,10 @@ export class Riverine extends Component {
         };
 
         if (newMargLeft > this.timelineWidth) {
-            this.setState(state => ({...state, hoverWidth: this.timelineWidth + 'px'}));
+            this.setState(state => ({
+                ...state,
+                hoverWidth: this.timelineWidth + 'px'
+            }));
         };
     }
 
@@ -159,7 +160,7 @@ export class Riverine extends Component {
         };
 
         if (newMargLeft < 0) {
-            n = '0px';
+            n = DEFAULT_HOVER_WIDTH;
         };
 
         if (newMargLeft > this.timelineWidth) {

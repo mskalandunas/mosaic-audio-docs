@@ -15,6 +15,8 @@
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "css-loader": "^0.23.1",
+    "eslint": "^5.9.0",
+    "eslint-config-mosaic": "^0.1.2",
     "file-loader": "^0.9.0",
     "image-webpack-loader": "^2.0.0",
     "react-addons-css-transition-group": "^15.3.0",
@@ -26,6 +28,7 @@
   },
   "scripts": {
     "build": "webpack",
+    "lint": "eslint --ext=.js,.html .",
     "start": "webpack-dev-server --port 3000"
   },
   "repository": {
