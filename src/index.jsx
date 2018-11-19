@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 import './css/player.css';
 import React from 'react';

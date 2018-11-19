@@ -6,67 +6,67 @@ const TARGET = process.env.npm_lifecycle_event;
 const webpack = require('webpack');
 
 const PATHS = {
-  app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'dist')
+    app: path.join(__dirname, 'src'),
+    build: path.join(__dirname, 'dist')
 };
 
 const common = {
-  entry: {
-    app: PATHS.app
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  output: {
-    path: PATHS.build,
-    filename: 'main.js'
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-        include: PATHS.app
-      },
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel?cacheDirectory'],
-        include: PATHS.app
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg|ico)$/i,
+    entry: {
+        app: PATHS.app
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+    output: {
+        path: PATHS.build,
+        filename: 'main.js'
+    },
+    module: {
         loaders: [
-          'file?hash=sha512&digest=hex&name=[hash].[ext]',
-          'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+            {
+                test: /\.css$/,
+                loaders: ['style', 'css'],
+                include: PATHS.app
+            },
+            {
+                test: /\.jsx?$/,
+                loaders: ['babel?cacheDirectory'],
+                include: PATHS.app
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg|ico)$/i,
+                loaders: [
+                    'file?hash=sha512&digest=hex&name=[hash].[ext]',
+                    'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+                ]
+            }
         ]
-      }
-    ]
-  }
+    }
 };
 
 if (TARGET === 'start' || !TARGET){
-  module.exports = merge(common, {
-    devtool: 'eval-source-map',
-    devServer: {
-      contentBase: PATHS.build,
-      historyApiFallback: true,
-      hot: true,
-      inline: true,
-      progress: true,
-      stats: 'errors-only',
-      host: process.env.HOST,
-      port: process.env.PORT
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        include: /\.min\.js$/,
-        minimize: true
-      })
-    ]
-  });
+    module.exports = merge(common, {
+        devtool: 'eval-source-map',
+        devServer: {
+            contentBase: PATHS.build,
+            historyApiFallback: true,
+            hot: true,
+            inline: true,
+            progress: true,
+            stats: 'errors-only',
+            host: process.env.HOST,
+            port: process.env.PORT
+        },
+        plugins: [
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.optimize.UglifyJsPlugin({
+                include: /\.min\.js$/,
+                minimize: true
+            })
+        ]
+    });
 }
 
 if (TARGET === 'build') {
-  module.exports = merge(common, {});
+    module.exports = merge(common, {});
 }
