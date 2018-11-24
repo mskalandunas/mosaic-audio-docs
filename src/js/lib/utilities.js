@@ -40,6 +40,3 @@ export const handleTime = duration => {
 
 export const handlePaddingResize = padding =>
     padding === '' ? 0 : formatResizedPadding(padding);
-
-// this needs to be change because it's updated on rerender
-export const newId = prefix => `${prefix}${(new Date()).getTime()}`;

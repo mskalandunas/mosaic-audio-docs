@@ -2,17 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { REFS } from '../lib/constants';
-import { newId } from '../lib/utilities';
 
 export const AudioNode = props => {
     return (
         <audio
-            id={newId(props.audioIdPrefix)}
+            id={props.audioNodeId}
             loop={props.loop}
-            onDurationChange={props.returnDuration}
+            onDurationChange={props.updateDuration}
             onTimeUpdate={() => {
                 props.updateTime();
-                props.handlePlayhead();
+                props.movePlayHead();
             }}
             preload={props.preload}
             ref={node => props.createRef(REFS.AUDIO, node)}
@@ -23,16 +22,16 @@ export const AudioNode = props => {
 };
 
 AudioNode.defaultProps = {
-    audioIdPrefix: 'mosaic-audio-',
+    audioNodeId: null,
     loop: false,
     preload: true
 };
 
 AudioNode.propTypes = {
-    audioIdPrefix: PropTypes.string,
+    audioNodeId: PropTypes.string,
     loop: PropTypes.bool,
     preload: PropTypes.bool,
-    returnDuration: PropTypes.func.isRequired,
+    updateDuration: PropTypes.func.isRequired,
     source: PropTypes.string.isRequired,
     updateTime: PropTypes.func.isRequired
 };
