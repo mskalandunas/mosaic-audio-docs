@@ -54,9 +54,9 @@
 
 	var _reactDom = __webpack_require__(41);
 
-	var _riverine = __webpack_require__(188);
+	var _Riverine = __webpack_require__(188);
 
-	var _riverine2 = _interopRequireDefault(_riverine);
+	var _Riverine2 = _interopRequireDefault(_Riverine);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64,8 +64,7 @@
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(_riverine2.default, {
-	      hover: true,
+	    _react2.default.createElement(_Riverine2.default, {
 	      source: 'audio/1.mp3'
 	    })
 	  );
@@ -22354,11 +22353,21 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(41);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
 	var _utilities = __webpack_require__(191);
+
+	var _constants = __webpack_require__(192);
+
+	var _AudioNode = __webpack_require__(193);
+
+	var _Controls = __webpack_require__(194);
+
+	var _PauseButton = __webpack_require__(195);
+
+	var _PlayButton = __webpack_require__(196);
+
+	var _Timeline = __webpack_require__(197);
+
+	var _TimeHandler = __webpack_require__(198);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22366,183 +22375,152 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // consider renaming
+
 
 	var Riverine = exports.Riverine = function (_Component) {
 	    _inherits(Riverine, _Component);
 
-	    function Riverine() {
+	    function Riverine(props) {
 	        _classCallCheck(this, Riverine);
 
-	        var _this = _possibleConstructorReturn(this, (Riverine.__proto__ || Object.getPrototypeOf(Riverine)).call(this));
+	        var _this = _possibleConstructorReturn(this, (Riverine.__proto__ || Object.getPrototypeOf(Riverine)).call(this, props));
 
-	        _this.scrubberClicked = false;
-	        _this.duration = '';
-	        _this.audioNode = '';
-	        _this.playButton = '';
-	        _this.playHead = '';
-	        _this.timeline = '';
-	        _this.timelineWidth = '';
-	        _this.sourceDuration = '';
+	        _this.state = _constants.DEFAULT_STATE;
 
 	        _this.addHover = _this.addHover.bind(_this);
 	        _this.clickPercent = _this.clickPercent.bind(_this);
+	        _this.createRef = _this.createRef.bind(_this);
 	        _this.returnDuration = _this.returnDuration.bind(_this);
+	        _this.pause = _this.pause.bind(_this);
 	        _this.play = _this.play.bind(_this);
-	        _this.handleHover = _this.handleHover.bind(_this);
 	        _this.updateTime = _this.updateTime.bind(_this);
 	        _this.handlePlayhead = _this.handlePlayhead.bind(_this);
 	        _this.handleResize = _this.handleResize.bind(_this);
 	        _this.mouseDown = _this.mouseDown.bind(_this);
 	        _this.mouseUp = _this.mouseUp.bind(_this);
-	        _this.moveplayhead = _this.moveplayhead.bind(_this);
 	        _this.removeHover = _this.removeHover.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(Riverine, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            var that = _reactDom2.default.findDOMNode(this).children[0].children[0].children[0];
-	            this.audioNode = that.children[0];
-	            this.duration = that.children[3];
-	            this.hover = that.children[2].children[0];
-	            this.playButton = that.children[1].children[0].children[0];
-	            this.playHead = that.children[2].children[0].children[0];
-	            this.timeline = that.children[2];
-	            this.timelineWidth = this.timeline.offsetWidth - this.playHead.offsetWidth;
-
-	            window.addEventListener('mouseup', this.mouseUp, false);
-	            window.addEventListener('resize', this.handleResize, false);
-	            this.audioNode.addEventListener('timeupdate', this.handlePlayhead, false);
-	            this.timeline.addEventListener('mouseover', this.handleHover, false);
-	        }
-	    }, {
 	        key: 'addHover',
 	        value: function addHover(e) {
-	            var positionOffset = (0, _utilities.handleOffsetParent)(this.timeline);
-	            var newMargLeft = e.pageX - positionOffset;
+	            var newMargLeft = e.pageX - (0, _utilities.handleOffsetParent)(this.timeline);
 
-	            if (newMargLeft >= 0 && newMargLeft <= this.timelineWidth) {
-	                this.hover.style.width = newMargLeft + 'px';
+	            if (newMargLeft >= 0 && newMargLeft <= this.state.timelineWidth) {
+	                this.setState({ hoverWidth: newMargLeft + 'px' });
 	            };
 
 	            if (newMargLeft < 0) {
-	                this.hover.style.width = '0px';
+	                this.setState({ hoverWidth: _constants.DEFAULT_HOVER_WIDTH });
 	            };
 
-	            if (newMargLeft > this.timelineWidth) {
-	                this.hover.style.width = this.timelineWidth + 'px';
+	            if (newMargLeft > this.state.timelineWidth) {
+	                this.setState({
+	                    hoverWidth: this.state.timelineWidth + 'px'
+	                });
 	            };
 	        }
 	    }, {
 	        key: 'clickPercent',
 	        value: function clickPercent(e) {
-	            var positionOffset = (0, _utilities.handleOffsetParent)(this.timeline);
-	            return (e.pageX - positionOffset) / this.timelineWidth;
+	            return (e.pageX - (0, _utilities.handleOffsetParent)(this.timeline)) / this.state.timelineWidth;
 	        }
 	    }, {
-	        key: 'returnDuration',
-	        value: function returnDuration() {
-	            this.sourceDuration = this.audioNode.duration;
-	            this.duration.innerHTML = (0, _utilities.handleTime)(this.audioNode.duration);
-	            this.updateTime();
-	        }
-	    }, {
-	        key: 'play',
-	        value: function play() {
-	            if (this.audioNode.paused) {
-	                this.audioNode.play();
-	                this.playButton.children[0].classList = '';
-	                this.playButton.children[0].classList = 'fa fa-pause';
-	            } else {
-	                this.audioNode.pause();
-	                this.playButton.children[0].classList = '';
-	                this.playButton.children[0].classList = 'fa fa-play';
-	            };
-	        }
-	    }, {
-	        key: 'updateTime',
-	        value: function updateTime() {
-	            this.duration.innerHTML = (0, _utilities.handleTime)(this.audioNode.currentTime) + ' / ' + (0, _utilities.handleTime)(this.audioNode.duration);
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.setState({
+	                timelineWidth: this.timeline.offsetWidth - this.playHead.offsetWidth
+	            });
 
-	            if (this.audioNode.currentTime === this.sourceDuration) {
-	                this.playButton.children[0].classList = '';
-	                this.playButton.children[0].classList = 'fa fa-play';
-	            };
+	            window.addEventListener('mouseup', this.mouseUp, false);
+	            window.addEventListener('resize', this.handleResize, false);
+	            this.audioNode.addEventListener('timeupdate', this.handlePlayhead, false);
 	        }
 	    }, {
-	        key: 'handleHover',
-	        value: function handleHover() {
-	            if (this.props.hover) {
-	                this.timeline.addEventListener('mousemove', this.addHover, false);
-	                this.timeline.addEventListener('mouseout', this.removeHover, false);
-	            };
+	        key: 'createRef',
+	        value: function createRef(name, node) {
+	            this[name] = node;
 	        }
 	    }, {
 	        key: 'handlePlayhead',
 	        value: function handlePlayhead() {
-	            var playPercent = this.timelineWidth * (this.audioNode.currentTime / this.audioNode.duration);
+	            var playPercent = this.state.timelineWidth * (this.audioNode.currentTime / this.audioNode.duration);
 
-	            if (this.props.margin) {
-	                this.playHead.style.marginLeft = playPercent + 'px';
-	            } else {
-	                this.playHead.style.paddingLeft = playPercent + 'px';
-	            };
+	            this.setState({ playHeadPaddingLeft: playPercent + 'px' });
 	        }
 	    }, {
 	        key: 'handleResize',
 	        value: function handleResize() {
 	            var padding = this.playHead.style.paddingLeft;
-	            var p = void 0;
+	            var p = (0, _utilities.handlePaddingResize)(padding);
 
-	            padding === '' ? p = 0 : p = parseInt(padding.substring(0, padding.length - 2));
-	            this.timelineWidth = this.timeline.offsetWidth - this.playHead.offsetWidth + p;
+	            this.state.timelineWidth = this.timeline.offsetWidth - this.playHead.offsetWidth + p;
 	            this.handlePlayhead();
 	        }
 	    }, {
 	        key: 'mouseDown',
 	        value: function mouseDown() {
-	            this.scrubberClicked = true;
-	            window.addEventListener('mousemove', this.moveplayhead, true);
+	            this.setState({
+	                scrubberClicked: true
+	            });
+
 	            this.audioNode.removeEventListener('timeupdate', this.handlePlayhead, false);
 	        }
 	    }, {
 	        key: 'mouseUp',
 	        value: function mouseUp(e) {
-	            if (this.scrubberClicked === false) {
+	            if (this.state.scrubberClicked === false) {
 	                return;
 	            };
 
-	            this.moveplayhead(e);
-	            window.removeEventListener('mousemove', this.moveplayhead, true);
 	            this.audioNode.currentTime = this.audioNode.duration * this.clickPercent(e);
 	            this.audioNode.addEventListener('timeupdate', this.handlePlayhead, false);
-	            this.scrubberClicked = false;
+
+	            this.setState({
+	                scrubberClicked: false
+	            });
 	        }
 	    }, {
-	        key: 'moveplayhead',
-	        value: function moveplayhead(e) {
-	            var positionOffset = (0, _utilities.handleOffsetParent)(this.timeline);
-	            var newMargLeft = e.pageX - positionOffset;
-	            var n = this.playHead.style.width;
-
-	            if (newMargLeft >= 0 && newMargLeft <= this.timelineWidth) {
-	                n = newMargLeft + 'px';
-	            };
-
-	            if (newMargLeft < 0) {
-	                n = '0px';
-	            };
-
-	            if (newMargLeft > this.timelineWidth) {
-	                n = this.timelineWidth + 'px';
-	            };
+	        key: 'play',
+	        value: function play() {
+	            this.audioNode.play();
+	            this.setState({ playing: true });
+	        }
+	    }, {
+	        key: 'pause',
+	        value: function pause() {
+	            this.audioNode.pause();
+	            this.setState({ playing: false });
 	        }
 	    }, {
 	        key: 'removeHover',
 	        value: function removeHover() {
-	            this.hover.style.width = '0px';
+	            this.setState({
+	                hoverWidth: _constants.DEFAULT_HOVER_WIDTH
+	            });
+	        }
+	    }, {
+	        key: 'returnDuration',
+	        value: function returnDuration() {
+	            this.setState({
+	                sourceDuration: this.audioNode.duration,
+	                formattedDuration: (0, _utilities.handleTime)(this.audioNode.duration)
+	            });
+	            this.updateTime();
+	        }
+	    }, {
+	        key: 'updateTime',
+	        value: function updateTime() {
+	            this.setState({
+	                formattedCurrentTime: (0, _utilities.handleTime)(this.audioNode.currentTime),
+	                formattedDuration: (0, _utilities.handleTime)(this.audioNode.duration)
+	            });
+
+	            if (this.audioNode.currentTime === this.state.sourceDuration) {
+	                this.setState({ playing: false });
+	            };
 	        }
 	    }, {
 	        key: 'render',
@@ -22559,38 +22537,33 @@
 	                        _react2.default.createElement(
 	                            'div',
 	                            { className: 'riverine-gui riverine-interface riverine-player' },
+	                            _react2.default.createElement(_AudioNode.AudioNode, {
+	                                audioIdPrefix: this.props.audioIdPrefix,
+	                                createRef: this.createRef,
+	                                handlePlayhead: this.handlePlayhead,
+	                                loop: this.props.loop,
+	                                preload: this.props.preload,
+	                                source: this.props.source,
+	                                returnDuration: this.returnDuration,
+	                                updateTime: this.updateTime
+	                            }),
 	                            _react2.default.createElement(
-	                                'audio',
-	                                { id: (0, _utilities.newId)('audio-'), preload: 'auto', onDurationChange: this.returnDuration, onTimeUpdate: this.updateTime, loop: this.props.loop },
-	                                _react2.default.createElement('source', { src: this.props.source })
+	                                _Controls.Controls,
+	                                null,
+	                                this.state.playing ? _react2.default.createElement(_PauseButton.PauseButton, { pause: this.pause }) : _react2.default.createElement(_PlayButton.PlayButton, { play: this.play })
 	                            ),
-	                            _react2.default.createElement(
-	                                'ul',
-	                                { className: 'riverine-controls' },
-	                                _react2.default.createElement(
-	                                    'li',
-	                                    { className: 'play-button-container' },
-	                                    _react2.default.createElement(
-	                                        'a',
-	                                        { className: 'riverine-play', onClick: this.play },
-	                                        _react2.default.createElement('i', { className: 'fa fa-play' })
-	                                    )
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'riverine-progress', onMouseDown: this.mouseDown },
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'riverine-seek-bar' },
-	                                    _react2.default.createElement('div', { className: 'riverine-play-bar', onMouseDown: this.mouseDown })
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'riverine-time-holder' },
-	                                _react2.default.createElement('span', null)
-	                            )
+	                            _react2.default.createElement(_Timeline.Timeline, {
+	                                createRef: this.createRef,
+	                                handleMouseDown: this.mouseDown,
+	                                handleMouseMove: this.addHover,
+	                                handleMouseOut: this.removeHover,
+	                                hoverWidth: this.state.hoverWidth,
+	                                playHeadPaddingLeft: this.state.playHeadPaddingLeft
+	                            }),
+	                            _react2.default.createElement(_TimeHandler.TimeHandler, {
+	                                currentTime: this.state.formattedCurrentTime,
+	                                duration: this.state.formattedDuration
+	                            })
 	                        )
 	                    )
 	                )
@@ -22603,8 +22576,12 @@
 
 	;
 
+	Riverine.defaultProps = {
+	    loop: false
+	};
+
 	Riverine.propTypes = {
-	    hover: _propTypes2.default.bool.isRequired,
+	    loop: _propTypes2.default.bool,
 	    source: _propTypes2.default.string.isRequired
 	};
 
@@ -22719,44 +22696,369 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var handleOffsetParent = exports.handleOffsetParent = function handleOffsetParent(node) {
-	    var n = node;
+	var handleOffsetParent = exports.handleOffsetParent = function handleOffsetParent(originNode) {
+	    var n = originNode;
 	    var o = 0;
 
 	    while (n.offsetParent !== null) {
 	        o = o + n.offsetLeft;
 	        n = n.offsetParent;
-	    };
+	    }
 
 	    return o;
 	};
 
-	var handleTime = exports.handleTime = function handleTime(duration) {
-	    var sec_num = parseInt(duration, 10);
-	    var hours = Math.floor(sec_num / 3600);
-	    var minutes = Math.floor((sec_num - hours * 3600) / 60);
-	    var seconds = sec_num - hours * 3600 - minutes * 60;
-
-	    if (hours < 10 && hours > 0) {
-	        hours = '0' + hours + ':';
-	    } else {
-	        hours = '';
-	    }
-
-	    if (minutes < 10) {
-	        minutes = '0' + minutes;
-	    }
-
-	    if (seconds < 10) {
-	        seconds = '0' + seconds;
-	    }
-
-	    return hours + minutes + ':' + seconds;
+	var convertDurationToInteger = function convertDurationToInteger(duration) {
+	    return parseInt(duration, 10);
 	};
 
+	var getHours = function getHours(duration) {
+	    return Math.floor(duration / 3600);
+	};
+
+	var getMinutes = function getMinutes(duration, hours) {
+	    return Math.floor((duration - hours * 3600) / 60);
+	};
+
+	var getSeconds = function getSeconds(duration, hours, minutes) {
+	    return duration - hours * 3600 - minutes * 60;
+	};
+
+	var hoursExist = function hoursExist(hours) {
+	    return hours < 10 && hours > 0;
+	};
+
+	var formatHours = function formatHours(hours) {
+	    return hoursExist(hours) ? hours = '0' + hours + ':' : hours = '';
+	};
+
+	var formatNonHourTimeUnits = function formatNonHourTimeUnits() {
+	    var timeAmount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+	    return timeAmount < 10 ? '0' + timeAmount : timeAmount;
+	};
+
+	var formatResizedPadding = function formatResizedPadding(padding) {
+	    return parseInt(padding.substring(0, padding.length - 2), 10);
+	};
+
+	var handleTime = exports.handleTime = function handleTime(duration) {
+	    var durationAsInteger = convertDurationToInteger(duration);
+	    var hours = getHours(durationAsInteger);
+	    var minutes = getMinutes(durationAsInteger, hours);
+	    var seconds = getSeconds(durationAsInteger, hours, minutes);
+
+	    return formatHours(hours) + formatNonHourTimeUnits(minutes) + ':' + formatNonHourTimeUnits(seconds);
+	};
+
+	var handlePaddingResize = exports.handlePaddingResize = function handlePaddingResize(padding) {
+	    return padding === '' ? 0 : formatResizedPadding(padding);
+	};
+
+	// this needs to be change because it's updated on rerender
 	var newId = exports.newId = function newId(prefix) {
 	    return '' + prefix + new Date().getTime();
 	};
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var DEFAULT_HOVER_WIDTH = exports.DEFAULT_HOVER_WIDTH = '0px';
+	var DEFAULT_STATE = exports.DEFAULT_STATE = {
+	    duration: '',
+	    formattedCurrentTime: '',
+	    formattedDuration: '',
+	    hoverWidth: DEFAULT_HOVER_WIDTH,
+	    playHeadPaddingLeft: '0',
+	    playing: false,
+	    scrubberClicked: false,
+	    sourceDuration: null,
+	    timelineWidth: '0'
+	};
+	var REFS = exports.REFS = {
+	    AUDIO: 'audioNode',
+	    PLAYHEAD: 'playHead',
+	    TIMELINE: 'timeline'
+	};
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.AudioNode = undefined;
+
+	var _propTypes = __webpack_require__(189);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _constants = __webpack_require__(192);
+
+	var _utilities = __webpack_require__(191);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var AudioNode = exports.AudioNode = function AudioNode(props) {
+	    return _react2.default.createElement(
+	        'audio',
+	        {
+	            id: (0, _utilities.newId)(props.audioIdPrefix),
+	            loop: props.loop,
+	            onDurationChange: props.returnDuration,
+	            onTimeUpdate: function onTimeUpdate() {
+	                props.updateTime();
+	                props.handlePlayhead();
+	            },
+	            preload: props.preload,
+	            ref: function ref(node) {
+	                return props.createRef(_constants.REFS.AUDIO, node);
+	            }
+	        },
+	        _react2.default.createElement('source', { src: props.source })
+	    );
+	};
+
+	AudioNode.defaultProps = {
+	    audioIdPrefix: 'mosaic-audio-',
+	    loop: false,
+	    preload: true
+	};
+
+	AudioNode.propTypes = {
+	    audioIdPrefix: _propTypes2.default.string,
+	    loop: _propTypes2.default.bool,
+	    preload: _propTypes2.default.bool,
+	    returnDuration: _propTypes2.default.func.isRequired,
+	    source: _propTypes2.default.string.isRequired,
+	    updateTime: _propTypes2.default.func.isRequired
+	};
+
+	exports.default = AudioNode;
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Controls = undefined;
+
+	var _propTypes = __webpack_require__(189);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Controls = exports.Controls = function Controls(props) {
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'riverine-controls' },
+	        props.children
+	    );
+	};
+
+	Controls.propTypes = {
+	    children: _propTypes2.default.node.isRequired
+	};
+
+	exports.default = Controls;
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.PauseButton = undefined;
+
+	var _propTypes = __webpack_require__(189);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PauseButton = exports.PauseButton = function PauseButton(props) {
+	    return _react2.default.createElement(
+	        'li',
+	        { className: 'pause-button-container' },
+	        _react2.default.createElement(
+	            'a',
+	            { className: 'riverine-pause', onClick: props.pause },
+	            _react2.default.createElement('i', { className: 'fa fa-pause' })
+	        )
+	    );
+	};
+
+	PauseButton.propTypes = {
+	    pause: _propTypes2.default.func.isRequired
+	};
+
+	exports.default = PauseButton;
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.PlayButton = undefined;
+
+	var _propTypes = __webpack_require__(189);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PlayButton = exports.PlayButton = function PlayButton(props) {
+	    return _react2.default.createElement(
+	        'li',
+	        { className: 'play-button-container' },
+	        _react2.default.createElement(
+	            'a',
+	            { className: 'riverine-play', onClick: props.play },
+	            _react2.default.createElement('i', { className: 'fa fa-play' })
+	        )
+	    );
+	};
+
+	PlayButton.propTypes = {
+	    play: _propTypes2.default.func.isRequired
+	};
+
+	exports.default = PlayButton;
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Timeline = undefined;
+
+	var _propTypes = __webpack_require__(189);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _constants = __webpack_require__(192);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Timeline = exports.Timeline = function Timeline(props) {
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'riverine-progress',
+	            onMouseDown: props.handleMouseDown,
+	            onMouseMove: props.handleMouseMove,
+	            onMouseOut: props.handleMouseOut,
+	            ref: function ref(node) {
+	                return props.createRef(_constants.REFS.TIMELINE, node);
+	            }
+	        },
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'riverine-seek-bar', style: { width: props.hoverWidth } },
+	            _react2.default.createElement('div', {
+	                className: 'riverine-play-bar',
+	                onMouseDown: props.handleMouseDown,
+	                ref: function ref(node) {
+	                    return props.createRef(_constants.REFS.PLAYHEAD, node);
+	                },
+	                style: {
+	                    paddingLeft: props.playHeadPaddingLeft
+	                }
+	            })
+	        )
+	    );
+	};
+
+	Timeline.propTypes = {
+	    // mouseDown: PropTypes.func.isRequired
+	};
+
+	exports.default = Timeline;
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.TimeHandler = undefined;
+
+	var _propTypes = __webpack_require__(189);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var TimeHandler = exports.TimeHandler = function TimeHandler(props) {
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'riverine-time-holder' },
+	        _react2.default.createElement(
+	            'span',
+	            null,
+	            props.currentTime,
+	            ' / ',
+	            props.duration
+	        )
+	    );
+	};
+
+	TimeHandler.propTypes = {
+	    currentTime: _propTypes2.default.string.isRequired,
+	    duration: _propTypes2.default.string.isRequired
+	};
+
+	exports.default = TimeHandler;
 
 /***/ })
 /******/ ]);

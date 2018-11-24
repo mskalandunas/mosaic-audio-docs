@@ -28,7 +28,6 @@ export class Riverine extends Component {
         this.handleResize = this.handleResize.bind(this);
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
-        this.moveplayhead = this.moveplayhead.bind(this);
         this.removeHover = this.removeHover.bind(this);
     }
 
@@ -56,7 +55,6 @@ export class Riverine extends Component {
 
     componentDidMount() {
         this.setState({
-            playHeadWidth: this.playHead.style.width,
             timelineWidth: this.timeline.offsetWidth - this.playHead.offsetWidth
         });
 
@@ -88,7 +86,6 @@ export class Riverine extends Component {
             scrubberClicked: true
         });
 
-        window.addEventListener('mousemove', this.moveplayhead, true);
         this.audioNode.removeEventListener('timeupdate', this.handlePlayhead, false);
     }
 
@@ -97,37 +94,12 @@ export class Riverine extends Component {
             return;
         };
 
-        this.moveplayhead(e);
-        window.removeEventListener('mousemove', this.moveplayhead, true);
         this.audioNode.currentTime = this.audioNode.duration * this.clickPercent(e);
         this.audioNode.addEventListener('timeupdate', this.handlePlayhead, false);
 
         this.setState({
             scrubberClicked: false
         });
-    }
-
-    moveplayhead(e) {
-        // generalize with addHover
-        const newMargLeft = e.pageX - handleOffsetParent(this.timeline);
-
-        if (newMargLeft >= 0 && newMargLeft <= this.state.timelineWidth) {
-            this.setState({
-                playHeadWidth: newMargLeft + 'px'
-            });
-        };
-
-        if (newMargLeft < 0) {
-            this.setState({
-                playHeadWidth: DEFAULT_HOVER_WIDTH
-            });
-        };
-
-        if (newMargLeft > this.state.timelineWidth) {
-            this.setState({
-                playHeadWidth: this.state.timelineWidth + 'px'
-            });
-        };
     }
 
     play() {
@@ -193,7 +165,6 @@ export class Riverine extends Component {
                                 handleMouseOut={this.removeHover}
                                 hoverWidth={this.state.hoverWidth}
                                 playHeadPaddingLeft={this.state.playHeadPaddingLeft}
-                                playHeadWidth={this.state.playHeadWidth}
                             />
                             <TimeHandler
                                 currentTime={this.state.formattedCurrentTime}

@@ -14,11 +14,10 @@ export const Timeline = props => {
             <div className="riverine-seek-bar" style={{ width: props.hoverWidth }}>
                 <div
                     className="riverine-play-bar"
-                    onMouseDown={props.mouseDown}
+                    onMouseDown={props.handleMouseDown}
                     ref={node => props.createRef(REFS.PLAYHEAD, node)}
                     style={{
-                        paddingLeft: props.playHeadPaddingLeft,
-                        width: props.playHeadWidth
+                        paddingLeft: props.playHeadPaddingLeft
                     }}
                 />
             </div>
