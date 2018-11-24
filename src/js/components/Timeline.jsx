@@ -9,15 +9,15 @@ export const Timeline = props => {
             onMouseDown={props.handleMouseDown}
             onMouseMove={props.handleMouseMove}
             onMouseOut={props.handleMouseOut}
-            ref={node => props.createRef(REFS.PLAYHEAD, node)}
+            ref={node => props.createRef(REFS.TIMELINE, node)}
         >
             <div className="riverine-seek-bar" style={{ width: props.hoverWidth }}>
                 <div
                     className="riverine-play-bar"
                     onMouseDown={props.mouseDown}
-                    ref={node => props.createRef(REFS.TIMELINE, node)}
+                    ref={node => props.createRef(REFS.PLAYHEAD, node)}
                     style={{
-                        marginLeft: props.playHeadMarginLeft,
+                        paddingLeft: props.playHeadPaddingLeft,
                         width: props.playHeadWidth
                     }}
                 />

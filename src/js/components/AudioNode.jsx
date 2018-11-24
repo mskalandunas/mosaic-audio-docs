@@ -10,7 +10,10 @@ export const AudioNode = props => {
             id={newId(props.audioIdPrefix)}
             loop={props.loop}
             onDurationChange={props.returnDuration}
-            onTimeUpdate={props.updateTime}
+            onTimeUpdate={() => {
+                props.updateTime();
+                props.handlePlayhead();
+            }}
             preload={props.preload}
             ref={node => props.createRef(REFS.AUDIO, node)}
         >
