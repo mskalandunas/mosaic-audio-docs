@@ -4,10 +4,11 @@ export const DEFAULT_STATE = {
     formattedCurrentTime: '',
     formattedDuration: '',
     hoverWidth: DEFAULT_HOVER_WIDTH,
+    playHeadPaddingLeft: '0',
     playing: false,
     scrubberClicked: false,
     sourceDuration: null,
-    timelineWidth: 0
+    timelineWidth: '0'
 };
 export const REFS = {
     AUDIO: 'audioNode',

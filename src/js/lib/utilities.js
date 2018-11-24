@@ -27,10 +27,10 @@ const formatNonHourTimeUnits = (timeAmount = 0) => timeAmount < 10 ? '0' + timeA
 const formatResizedPadding = padding => parseInt(padding.substring(0, padding.length - 2), 10);
 
 export const handleTime = duration => {
-    let durationAsInteger = convertDurationToInteger(duration);
-    let hours = getHours(durationAsInteger);
-    let minutes = getMinutes(durationAsInteger, hours);
-    let seconds = getSeconds(durationAsInteger, hours, minutes);
+    const durationAsInteger = convertDurationToInteger(duration);
+    const hours = getHours(durationAsInteger);
+    const minutes = getMinutes(durationAsInteger, hours);
+    const seconds = getSeconds(durationAsInteger, hours, minutes);
 
     return formatHours(hours)
         + formatNonHourTimeUnits(minutes)
@@ -41,4 +41,5 @@ export const handleTime = duration => {
 export const handlePaddingResize = padding =>
     padding === '' ? 0 : formatResizedPadding(padding);
 
+// this needs to be change because it's updated on rerender
 export const newId = prefix => `${prefix}${(new Date()).getTime()}`;

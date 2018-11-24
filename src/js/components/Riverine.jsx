@@ -13,8 +13,8 @@ import { Timeline } from './Timeline';
 import { TimeHandler } from './TimeHandler';
 
 export class Riverine extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = DEFAULT_STATE;
 
         this.addHover = this.addHover.bind(this);
@@ -28,13 +28,33 @@ export class Riverine extends Component {
         this.handleResize = this.handleResize.bind(this);
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
-        this.moveplayhead = this.moveplayhead.bind(this);
         this.removeHover = this.removeHover.bind(this);
+    }
+
+    addHover(e) {
+        const newMargLeft = e.pageX - handleOffsetParent(this.timeline);
+
+        if (newMargLeft >= 0 && newMargLeft <= this.state.timelineWidth) {
+            this.setState({ hoverWidth: newMargLeft + 'px' });
+        };
+
+        if (newMargLeft < 0) {
+            this.setState({ hoverWidth: DEFAULT_HOVER_WIDTH });
+        };
+
+        if (newMargLeft > this.state.timelineWidth) {
+            this.setState({
+                hoverWidth: this.state.timelineWidth + 'px'
+            });
+        };
+    }
+
+    clickPercent(e) {
+        return (e.pageX - handleOffsetParent(this.timeline)) / this.state.timelineWidth;
     }
 
     componentDidMount() {
         this.setState({
-            playHeadWidth: this.playHead.style.width,
             timelineWidth: this.timeline.offsetWidth - this.playHead.offsetWidth
         });
 
@@ -43,64 +63,14 @@ export class Riverine extends Component {
         this.audioNode.addEventListener('timeupdate', this.handlePlayhead, false);
     }
 
-    addHover(e) {
-        let newMargLeft = e.pageX - handleOffsetParent(this.timeline);
-
-        if (newMargLeft >= 0 && newMargLeft <= this.state.timelineWidth) {
-            this.setState(state => ({ ...state, hoverWidth: newMargLeft + 'px' }));
-        };
-
-        if (newMargLeft < 0) {
-            this.setState(state => ({ ...state, hoverWidth: DEFAULT_HOVER_WIDTH }));
-        };
-
-        if (newMargLeft > this.state.timelineWidth) {
-            this.setState(state => ({
-                ...state,
-                hoverWidth: this.state.timelineWidth + 'px'
-            }));
-        };
-    }
-
-    clickPercent(e) {
-        return (e.pageX - handleOffsetParent(this.timeline)) / this.state.timelineWidth;
-    }
-
-    returnDuration() {
-        this.setState(state => ({
-            ...state,
-            sourceDuration: this.audioNode.duration,
-            formattedDuration: handleTime(this.audioNode.duration)
-        }));
-        this.updateTime();
-    }
-
-    pause() {
-        this.audioNode.pause();
-        this.setState({ playing: false });
-    }
-
-    play() {
-        this.audioNode.play();
-        this.setState({ playing: true });
-    }
-
-    updateTime() {
-        this.setState(state => ({
-            ...state,
-            formattedCurrentTime: handleTime(this.audioNode.currentTime),
-            formattedDuration: handleTime(this.audioNode.duration)
-        }));
-
-        if (this.audioNode.currentTime === this.state.sourceDuration) {
-            this.setState({ playing: false });
-        };
+    createRef(name, node) {
+        this[name] = node;
     }
 
     handlePlayhead() {
         let playPercent = this.state.timelineWidth * (this.audioNode.currentTime / this.audioNode.duration);
 
-        this.setState({ playHeadMarginLeft: playPercent + 'px' });
+        this.setState({ playHeadPaddingLeft: playPercent + 'px' });
     }
 
     handleResize() {
@@ -112,12 +82,10 @@ export class Riverine extends Component {
     }
 
     mouseDown() {
-        this.setState(state => ({
-            ...state,
+        this.setState({
             scrubberClicked: true
-        }));
+        });
 
-        window.addEventListener('mousemove', this.moveplayhead, true);
         this.audioNode.removeEventListener('timeupdate', this.handlePlayhead, false);
     }
 
@@ -126,50 +94,47 @@ export class Riverine extends Component {
             return;
         };
 
-        this.moveplayhead(e);
-        window.removeEventListener('mousemove', this.moveplayhead, true);
         this.audioNode.currentTime = this.audioNode.duration * this.clickPercent(e);
         this.audioNode.addEventListener('timeupdate', this.handlePlayhead, false);
 
-        this.setState(state => ({
-            ...state,
+        this.setState({
             scrubberClicked: false
-        }));
+        });
     }
 
-    moveplayhead(e) {
-        let positionOffset = handleOffsetParent(this.timeline);
-        let newMargLeft = e.pageX - positionOffset;
-        let n = this.playHead.style.width;
+    play() {
+        this.audioNode.play();
+        this.setState({ playing: true });
+    }
 
-        if (newMargLeft >= 0 && newMargLeft <= this.state.timelineWidth) {
-            this.setState({
-                playHeadWidth: newMargLeft + 'px'
-            });
-        };
-
-        if (newMargLeft < 0) {
-            this.setState({
-                playHeadWidth: DEFAULT_HOVER_WIDTH
-            });
-        };
-
-        if (newMargLeft > this.state.timelineWidth) {
-            this.setState({
-                playHeadWidth: this.state.timelineWidth + 'px'
-            });
-        };
+    pause() {
+        this.audioNode.pause();
+        this.setState({ playing: false });
     }
 
     removeHover() {
-        this.setState(state => ({
-            ...state,
+        this.setState({
             hoverWidth: DEFAULT_HOVER_WIDTH
-        }));
+        });
     }
 
-    createRef(name, node) {
-        this[name] = node;
+    returnDuration() {
+        this.setState({
+            sourceDuration: this.audioNode.duration,
+            formattedDuration: handleTime(this.audioNode.duration)
+        });
+        this.updateTime();
+    }
+
+    updateTime() {
+        this.setState({
+            formattedCurrentTime: handleTime(this.audioNode.currentTime),
+            formattedDuration: handleTime(this.audioNode.duration)
+        });
+
+        if (this.audioNode.currentTime === this.state.sourceDuration) {
+            this.setState({ playing: false });
+        };
     }
 
     render() {
@@ -181,7 +146,7 @@ export class Riverine extends Component {
                             <AudioNode
                                 audioIdPrefix={this.props.audioIdPrefix}
                                 createRef={this.createRef}
-                                handleTimeUpdate={this.handlePlayhead}
+                                handlePlayhead={this.handlePlayhead}
                                 loop={this.props.loop}
                                 preload={this.props.preload}
                                 source={this.props.source}
@@ -199,8 +164,7 @@ export class Riverine extends Component {
                                 handleMouseMove={this.addHover}
                                 handleMouseOut={this.removeHover}
                                 hoverWidth={this.state.hoverWidth}
-                                playHeadMarginLeft={this.state.playHeadMarginLeft}
-                                playHeadWidth={this.state.playHeadWidth}
+                                playHeadPaddingLeft={this.state.playHeadPaddingLeft}
                             />
                             <TimeHandler
                                 currentTime={this.state.formattedCurrentTime}
@@ -214,7 +178,12 @@ export class Riverine extends Component {
     }
 };
 
+Riverine.defaultProps = {
+    loop: false
+};
+
 Riverine.propTypes = {
+    loop: PropTypes.bool,
     source: PropTypes.string.isRequired
 };
 
