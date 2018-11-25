@@ -24,13 +24,15 @@ export const AudioNode = props => {
 AudioNode.defaultProps = {
     audioNodeId: null,
     loop: false,
-    preload: true
+    preload: 'auto'
 };
 
 AudioNode.propTypes = {
     audioNodeId: PropTypes.string,
+    createRef: PropTypes.func.isRequired,
     loop: PropTypes.bool,
-    preload: PropTypes.bool,
+    movePlayHead: PropTypes.func.isRequired,
+    preload: PropTypes.string,
     updateDuration: PropTypes.func.isRequired,
     source: PropTypes.string.isRequired,
     updateTime: PropTypes.func.isRequired
