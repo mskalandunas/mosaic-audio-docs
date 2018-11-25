@@ -22,6 +22,7 @@
     "file-loader": "^0.9.0",
     "image-webpack-loader": "^2.0.0",
     "jest": "^23.6.0",
+    "pre-commit": "^1.2.2",
     "react-addons-css-transition-group": "^15.3.0",
     "react-addons-linked-state-mixin": "^15.3.0",
     "style-loader": "^0.13.1",
@@ -29,6 +30,9 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-merge": "^0.14.1"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "scripts": {
     "build": "webpack",
     "lint": "eslint --ext=.js,.jsx,.html .",
