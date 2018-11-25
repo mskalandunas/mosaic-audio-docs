@@ -23,6 +23,7 @@
     "image-webpack-loader": "^2.0.0",
     "jest": "^23.6.0",
     "pre-commit": "^1.2.2",
+    "pre-push": "^0.1.1",
     "react-addons-css-transition-group": "^15.3.0",
     "react-addons-linked-state-mixin": "^15.3.0",
     "style-loader": "^0.13.1",
@@ -33,10 +34,14 @@
   "pre-commit": [
     "lint"
   ],
+  "pre-push": [
+    "test"
+  ],
   "scripts": {
     "build": "webpack",
     "lint": "eslint --ext=.js,.jsx,.html .",
-    "start": "webpack-dev-server --port 3000"
+    "start": "webpack-dev-server --port 3000",
+    "test": "jest --no-cache ./test/"
   },
   "repository": {
     "type": "git",
