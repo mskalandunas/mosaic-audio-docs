@@ -9,7 +9,7 @@ import { TimeHandler } from './TimeHandler';
 import { Timeline } from './Timeline';
 
 import { DEFAULT_HOVER_WIDTH, DEFAULT_STATE } from '../lib/constants';
-import { handleOffsetParent, handlePaddingResize, handleTime } from '../lib/utilities';
+import { createTimeString, handleOffsetParent, handlePaddingResize } from '../lib/utilities';
 
 export class Riverine extends Component {
     constructor(props) {
@@ -127,7 +127,7 @@ export class Riverine extends Component {
     updateDuration() {
         this.setState(() => ({
             sourceDuration: this.audioNode.duration,
-            formattedDuration: handleTime(this.audioNode.duration)
+            formattedDuration: createTimeString(this.audioNode.duration)
         }));
 
         this.updateTime();
@@ -135,8 +135,8 @@ export class Riverine extends Component {
 
     updateTime() {
         this.setState(() => ({
-            formattedCurrentTime: handleTime(this.audioNode.currentTime),
-            formattedDuration: handleTime(this.audioNode.duration)
+            formattedCurrentTime: createTimeString(this.audioNode.currentTime),
+            formattedDuration: createTimeString(this.audioNode.duration)
         }));
 
         if (this.audioNode.currentTime === this.state.sourceDuration) {
