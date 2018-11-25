@@ -26,7 +26,12 @@ export const Timeline = props => {
 };
 
 Timeline.propTypes = {
-    // mouseDown: PropTypes.func.isRequired
+    createRef: PropTypes.func.isRequired,
+    handleMouseDown: PropTypes.func.isRequired,
+    handleMouseMove: PropTypes.func.isRequired,
+    handleMouseOut: PropTypes.func.isRequired,
+    hoverWidth: PropTypes.string.isRequired,
+    playHeadPaddingLeft: PropTypes.string.isRequired
 };
 
 export default Timeline;

@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-latest": "^6.22.0",
@@ -17,8 +18,10 @@
     "css-loader": "^0.23.1",
     "eslint": "^5.9.0",
     "eslint-config-mosaic": "^0.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "file-loader": "^0.9.0",
     "image-webpack-loader": "^2.0.0",
+    "jest": "^23.6.0",
     "react-addons-css-transition-group": "^15.3.0",
     "react-addons-linked-state-mixin": "^15.3.0",
     "style-loader": "^0.13.1",
@@ -28,7 +31,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "lint": "eslint --ext=.js,.html .",
+    "lint": "eslint --ext=.js,.jsx,.html .",
     "start": "webpack-dev-server --port 3000"
   },
   "repository": {

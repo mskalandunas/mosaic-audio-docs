@@ -1,5 +1,5 @@
 {
-    "extends": "eslint-config-mosaic",
+    "extends": ["eslint-config-mosaic", "plugin:react/recommended"],
     "env": {
         "browser": true,
         "es6": true,
@@ -13,6 +13,7 @@
         "ecmaVersion": 8,
         "sourceType": "module"
     },
+    "parser": "babel-eslint",
     "rules": {
         "no-floating-decimal": 1
     }
